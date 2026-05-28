@@ -6,7 +6,7 @@
 
 ## 기반 작업
 
-- [ ] `chore: 프로젝트 초기화` — Vite + React + TS, pnpm, Tailwind, ESLint/tsc/build 스크립트
+- [x] `chore: 프로젝트 초기화` — Vite + React + TS, pnpm, Tailwind, ESLint/tsc/build 스크립트 (72c2b4e)
 - [ ] `feat: 테마 시스템` — CSS 변수 토큰, 라이트/다크, Pretendard + Jua 폰트
 - [ ] `feat: mock 데이터/타입` — 7개 타입 정의, 키움증권풍 mock 데이터
 - [ ] `feat: 데이터 레이어` — TanStack Query hooks (portfolio/holdings/transactions/chart/allocation)

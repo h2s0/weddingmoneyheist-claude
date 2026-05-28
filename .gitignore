@@ -1,4 +1,37 @@
-node_modules/
+# 빌드 산출물
 dist/
+dist-ssr/
+
+# 의존성
+node_modules/
+
+# 환경변수
 .env
 .env.local
+.env.*.local
+
+# TypeScript 빌드 캐시
+node_modules/.tmp/
+
+# pnpm
+.pnpm-store/
+
+# 로그
+logs/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# 에디터
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS
+.DS_Store
+Thumbs.db
