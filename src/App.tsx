@@ -1,15 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useDashboardStore } from './stores'
-import { DashboardGrid } from './components/dashboard'
+import { DashboardGrid, WidgetRenderer } from './components/dashboard'
 import type { WidgetId } from './types'
-
-function PlaceholderWidget({ id }: { id: WidgetId }) {
-  return (
-    <div className="h-full bg-card border border-[var(--line)] rounded-[var(--radius)] shadow-sm flex items-center justify-center">
-      <span className="text-ink-soft text-sm font-display">{id}</span>
-    </div>
-  )
-}
 
 export function App() {
   const { theme, toggleTheme, resetLayouts } = useDashboardStore()
@@ -53,7 +45,7 @@ export function App() {
 
       <main className="p-[18px]" ref={containerRef}>
         <DashboardGrid width={gridWidth}>
-          {(id) => <PlaceholderWidget id={id} />}
+          {(id: WidgetId) => <WidgetRenderer id={id} />}
         </DashboardGrid>
       </main>
     </div>
