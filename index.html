@@ -1,0 +1,1125 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>아방이 — 아빠 포트폴리오</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Gaegu:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<style>
+  :root {
+    --bg: #FFF6EE;
+    --bg-soft: #FFEEDD;
+    --card: #FFFFFF;
+    --card-soft: #FFF8F2;
+    --ink: #2A2533;
+    --ink-soft: #7A7388;
+    --ink-faint: #B6B0C0;
+    --line: rgba(42, 37, 51, 0.08);
+    --line-strong: rgba(42, 37, 51, 0.14);
+
+    --pink: #FFB6C8;
+    --pink-deep: #F58BA6;
+    --mint: #8AD6B5;
+    --mint-deep: #4FB991;
+    --coral: #FF9989;
+    --coral-deep: #F1604C;
+    --yellow: #FFD978;
+    --yellow-deep: #F0B844;
+    --lav: #C9B8FF;
+    --lav-deep: #9C84F0;
+    --sky: #A8D5FF;
+    --sky-deep: #6CABE8;
+
+    --gain: var(--mint-deep);
+    --gain-bg: #E5F6EE;
+    --loss: var(--coral-deep);
+    --loss-bg: #FFE7E1;
+
+    --shadow-sm: 0 1px 0 rgba(42,37,51,0.04), 0 4px 14px -8px rgba(42,37,51,0.12);
+    --shadow-md: 0 1px 0 rgba(42,37,51,0.04), 0 16px 32px -18px rgba(42,37,51,0.18);
+    --shadow-lift: 0 24px 60px -24px rgba(42,37,51,0.32);
+
+    --radius-sm: 14px;
+    --radius: 22px;
+    --radius-lg: 28px;
+  }
+
+  [data-theme="dark"] {
+    --bg: #15131F;
+    --bg-soft: #1C1A28;
+    --card: #232032;
+    --card-soft: #2B2740;
+    --ink: #F4EFE4;
+    --ink-soft: #9A93AA;
+    --ink-faint: #6B6478;
+    --line: rgba(255, 255, 255, 0.06);
+    --line-strong: rgba(255, 255, 255, 0.12);
+
+    --pink: #F8A9BD;
+    --pink-deep: #FF9DB6;
+    --mint: #6FCAA8;
+    --mint-deep: #88E1BD;
+    --coral: #FF9C8C;
+    --coral-deep: #FF8775;
+    --yellow: #FFD37A;
+    --yellow-deep: #FFCD66;
+    --lav: #B8A4FF;
+    --lav-deep: #C9B8FF;
+    --sky: #9BCBFA;
+    --sky-deep: #B6DBFB;
+
+    --gain: var(--mint-deep);
+    --gain-bg: rgba(136, 225, 189, 0.14);
+    --loss: var(--coral-deep);
+    --loss-bg: rgba(255, 135, 117, 0.16);
+
+    --shadow-sm: 0 1px 0 rgba(0,0,0,0.4), 0 6px 16px -10px rgba(0,0,0,0.6);
+    --shadow-md: 0 2px 0 rgba(0,0,0,0.3), 0 18px 32px -20px rgba(0,0,0,0.7);
+    --shadow-lift: 0 32px 70px -28px rgba(0,0,0,0.8);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Pretendard', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.4s ease, color 0.4s ease;
+  }
+  .display { font-family: 'Jua', 'Pretendard', sans-serif; font-weight: 400; letter-spacing: -0.01em; }
+  .num { font-variant-numeric: tabular-nums; font-feature-settings: 'tnum'; }
+
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 99px; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-track { background: transparent; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 18px;
+    grid-auto-rows: 88px;
+  }
+  .widget {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+  }
+  .widget.dragging { opacity: 0.4; }
+  .widget.drop-target { border-color: var(--pink-deep); box-shadow: var(--shadow-md), 0 0 0 3px color-mix(in oklab, var(--pink-deep) 25%, transparent); }
+  .widget-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 22px 0;
+    flex-shrink: 0;
+  }
+  .widget-title {
+    font-family: 'Jua', sans-serif;
+    font-size: 17px;
+    color: var(--ink);
+    flex: 1;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .widget-emoji {
+    width: 26px; height: 26px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 8px;
+    font-size: 14px;
+    background: var(--bg-soft);
+  }
+  .drag-handle {
+    width: 26px; height: 26px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 8px;
+    color: var(--ink-faint);
+    cursor: grab;
+    opacity: 0;
+    transition: opacity 0.15s ease, background 0.15s ease, color 0.15s ease;
+    user-select: none;
+  }
+  .drag-handle:hover { background: var(--bg-soft); color: var(--ink-soft); }
+  .drag-handle:active { cursor: grabbing; }
+  .widget:hover .drag-handle { opacity: 1; }
+  .widget-body {
+    flex: 1;
+    padding: 14px 22px 22px;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chip {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+  }
+  .chip.gain { background: var(--gain-bg); color: var(--gain); }
+  .chip.loss { background: var(--loss-bg); color: var(--loss); }
+  .chip.neutral { background: var(--bg-soft); color: var(--ink-soft); }
+
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 24px 32px 18px;
+    gap: 16px;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-mark {
+    width: 44px; height: 44px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--pink) 0%, var(--lav) 100%);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: var(--shadow-sm);
+  }
+  .brand-name { font-family: 'Jua'; font-size: 22px; line-height: 1; }
+  .brand-sub { font-size: 12px; color: var(--ink-soft); margin-top: 2px; }
+
+  .topbar-actions { display: flex; align-items: center; gap: 8px; }
+  .pill-btn {
+    height: 40px;
+    padding: 0 14px;
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid var(--line);
+    background: var(--card);
+    color: var(--ink);
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+  }
+  .pill-btn:hover { background: var(--card-soft); }
+  .pill-btn.primary {
+    background: var(--ink);
+    color: var(--card);
+    border-color: transparent;
+  }
+  .pill-btn.primary:hover { transform: translateY(-1px); }
+  .theme-toggle {
+    width: 64px; height: 40px;
+    border-radius: 999px;
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    position: relative;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  .theme-toggle .knob {
+    position: absolute;
+    top: 3px; left: 3px;
+    width: 32px; height: 32px;
+    background: var(--card);
+    border-radius: 999px;
+    box-shadow: var(--shadow-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    transition: transform 0.35s cubic-bezier(.5,1.8,.3,1);
+  }
+  [data-theme="dark"] .theme-toggle .knob { transform: translateX(24px); }
+
+  .shell {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 32px 60px;
+  }
+
+  .hint {
+    margin: 0 0 18px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: var(--bg-soft);
+    color: var(--ink-soft);
+    font-size: 12.5px;
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1px dashed var(--line-strong);
+  }
+
+  .big-num {
+    font-family: 'Jua', sans-serif;
+    font-size: 42px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  .mid-num { font-family: 'Jua', sans-serif; font-size: 26px; line-height: 1.1; }
+  .label { font-size: 12px; color: var(--ink-soft); }
+
+  .row { display: grid; grid-template-columns: 1.5fr 0.8fr 0.9fr 0.9fr; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px dashed var(--line); font-size: 13.5px; }
+  .row:last-child { border-bottom: none; }
+  .row.head { font-size: 11px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.08em; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+  .stock-name { display: flex; align-items: center; gap: 10px; }
+  .stock-avatar { width: 30px; height: 30px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; font-family: 'Jua'; font-size: 13px; color: var(--ink); flex-shrink: 0; }
+
+  .alloc-bar { height: 8px; border-radius: 999px; background: var(--bg-soft); overflow: hidden; display: flex; }
+  .alloc-seg { height: 100%; }
+
+  .tx { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px dashed var(--line); }
+  .tx:last-child { border-bottom: none; }
+  .tx-icon { width: 36px; height: 36px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; font-family: 'Jua'; font-size: 13px; flex-shrink: 0; }
+  .tx-icon.buy { background: var(--gain-bg); color: var(--gain); }
+  .tx-icon.sell { background: var(--loss-bg); color: var(--loss); }
+
+  .bubble {
+    position: relative;
+    padding: 14px 18px;
+    background: var(--bg-soft);
+    border-radius: 18px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .bubble:after {
+    content: '';
+    position: absolute;
+    left: 28px; bottom: -7px;
+    width: 14px; height: 14px;
+    background: var(--bg-soft);
+    transform: rotate(45deg);
+    border-radius: 3px;
+  }
+
+  .gain { color: var(--gain); }
+  .loss { color: var(--loss); }
+
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+  .bob { animation: bob 3s ease-in-out infinite; }
+
+  /* tweaks panel */
+  .tweaks-fab {
+    position: fixed;
+    bottom: 28px; right: 28px;
+    width: 48px; height: 48px;
+    border-radius: 999px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-md);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    z-index: 100;
+  }
+  .tweaks-fab:hover { transform: scale(1.08); box-shadow: var(--shadow-lift); }
+  .tweaks-panel {
+    position: fixed;
+    bottom: 88px; right: 28px;
+    width: 260px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lift);
+    padding: 20px;
+    z-index: 99;
+    display: none;
+  }
+  .tweaks-panel.open { display: block; }
+  .tweaks-panel-title {
+    font-family: 'Jua', sans-serif;
+    font-size: 16px;
+    margin: 0 0 16px;
+    color: var(--ink);
+  }
+  .tweak-section { margin-bottom: 16px; }
+  .tweak-section-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+    margin-bottom: 10px;
+  }
+  .tweak-row {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 10px;
+  }
+  .tweak-label { font-size: 13px; color: var(--ink); }
+  .tweak-toggle-track {
+    width: 40px; height: 24px;
+    border-radius: 999px;
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    position: relative;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.2s ease;
+  }
+  .tweak-toggle-track.on { background: var(--mint-deep); border-color: transparent; }
+  .tweak-toggle-knob {
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 18px; height: 18px;
+    background: var(--card);
+    border-radius: 999px;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.25s cubic-bezier(.5,1.6,.3,1);
+  }
+  .tweak-toggle-track.on .tweak-toggle-knob { transform: translateX(16px); }
+  .tweak-radio-group { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tweak-radio-btn {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink-soft);
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .tweak-radio-btn.active {
+    background: var(--ink);
+    color: var(--card);
+    border-color: transparent;
+  }
+  .tweak-btn {
+    width: 100%;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid var(--line);
+    background: var(--bg-soft);
+    color: var(--ink);
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s;
+  }
+  .tweak-btn:hover { background: var(--card-soft); }
+
+  @media (max-width: 980px) {
+    .grid { grid-template-columns: repeat(6, 1fr); }
+    .shell { padding: 0 16px 60px; }
+    .topbar { padding: 18px 16px 12px; }
+  }
+</style>
+
+<script>
+  window.TWEAK_DEFAULTS = {
+    "accent": "pink",
+    "showMascot": true,
+    "compactNumbers": false,
+    "defaultTheme": "light"
+  };
+</script>
+
+</head>
+<body>
+
+<div id="root"></div>
+
+<script type="text/babel">
+// ── data.jsx ─────────────────────────────────────────────────────────
+const PORTFOLIO = {
+  principal: 10_000_000,
+  current: 11_247_500,
+  cash: 506_180,
+  todayChange: 134_200,
+  todayChangePct: 1.21,
+  startedAt: "2026-02-12",
+};
+
+const HOLDINGS_RAW = [
+  { ticker: "005930", name: "삼성전자",   shares: 70, avg: 65_000,  price: 72_300,  color: "var(--sky)",    accent: "var(--sky-deep)" },
+  { ticker: "000660", name: "SK하이닉스", shares: 15, avg: 135_000, price: 148_500, color: "var(--mint)",   accent: "var(--mint-deep)" },
+  { ticker: "035420", name: "NAVER",      shares: 12, avg: 195_000, price: 178_500, color: "var(--lav)",    accent: "var(--lav-deep)" },
+  { ticker: "035720", name: "카카오",     shares: 30, avg: 52_000,  price: 58_400,  color: "var(--yellow)", accent: "var(--yellow-deep)" },
+  { ticker: "005380", name: "현대차",     shares: 8,  avg: 240_000, price: 268_000, color: "var(--pink)",   accent: "var(--pink-deep)" },
+];
+
+const TRANSACTIONS = [
+  { date: "2026-05-26", type: "buy",  ticker: "005930", name: "삼성전자",      shares: 10, price: 72_000,  note: "조정 들어와서 추가매수" },
+  { date: "2026-05-24", type: "sell", ticker: "373220", name: "LG에너지솔루션", shares: 5,  price: 380_000, note: "+18% 익절" },
+  { date: "2026-05-22", type: "buy",  ticker: "035420", name: "NAVER",         shares: 5,  price: 195_000, note: "AI 모멘텀" },
+  { date: "2026-05-20", type: "buy",  ticker: "035720", name: "카카오",         shares: 20, price: 51_500,  note: "" },
+  { date: "2026-05-15", type: "buy",  ticker: "000660", name: "SK하이닉스",    shares: 5,  price: 142_000, note: "" },
+  { date: "2026-05-10", type: "buy",  ticker: "005930", name: "삼성전자",      shares: 60, price: 63_800,  note: "초기 매수" },
+];
+
+const EQUITY_CURVE = [
+  1000, 1004, 1012, 1008, 1015, 1023, 1031, 1024, 1018, 1029,
+  1041, 1055, 1062, 1058, 1067, 1078, 1085, 1079, 1091, 1102,
+  1098, 1107, 1115, 1110, 1118, 1126, 1119, 1131, 1119, 1124.75,
+];
+
+const fmt = (n, opts = {}) => {
+  const { sign = false, decimals = 0, suffix = '' } = opts;
+  if (n === null || n === undefined || Number.isNaN(n)) return '–';
+  const s = (sign && n > 0 ? '+' : '') + n.toLocaleString('ko-KR', {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  });
+  return s + suffix;
+};
+const fmtKRW = (n) => fmt(n, { decimals: 0 }) + '원';
+const fmtCompactKRW = (n) => {
+  if (Math.abs(n) >= 1_0000_0000) return (n / 1_0000_0000).toFixed(2) + '억';
+  if (Math.abs(n) >= 1_0000)      return Math.round(n / 1_0000) + '만';
+  return fmt(n) + '원';
+};
+const fmtPct = (n, decimals = 2) => (n > 0 ? '+' : '') + n.toFixed(decimals) + '%';
+
+const HOLDINGS = HOLDINGS_RAW.map(h => {
+  const value  = h.shares * h.price;
+  const cost   = h.shares * h.avg;
+  const pnl    = value - cost;
+  const pnlPct = (pnl / cost) * 100;
+  return { ...h, value, cost, pnl, pnlPct };
+});
+
+const holdingsTotal = HOLDINGS.reduce((s, h) => s + h.value, 0);
+const totalAssets   = holdingsTotal + PORTFOLIO.cash;
+const totalPnl      = totalAssets - PORTFOLIO.principal;
+const totalPnlPct   = (totalPnl / PORTFOLIO.principal) * 100;
+
+// ── tweaks-panel.jsx ─────────────────────────────────────────────────
+const { useState, useEffect, useRef, useMemo } = React;
+
+function useTweaks(defaults) {
+  const [tweaks, setTweaks] = useState(defaults);
+  const setTweak = (key, value) => setTweaks(prev => ({ ...prev, [key]: value }));
+  return [tweaks, setTweak];
+}
+
+function TweaksPanel({ title, children }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <div className="tweaks-fab" onClick={() => setOpen(o => !o)} title="Tweaks">
+        {open ? '✕' : '🎨'}
+      </div>
+      <div className={`tweaks-panel ${open ? 'open' : ''}`}>
+        <div className="tweaks-panel-title">{title}</div>
+        {children}
+      </div>
+    </>
+  );
+}
+
+function TweakSection({ label, children }) {
+  return (
+    <div className="tweak-section">
+      <div className="tweak-section-label">{label}</div>
+      {children}
+    </div>
+  );
+}
+
+function TweakToggle({ label, value, onChange }) {
+  return (
+    <div className="tweak-row">
+      <span className="tweak-label">{label}</span>
+      <div className={`tweak-toggle-track ${value ? 'on' : ''}`} onClick={() => onChange(!value)}>
+        <div className="tweak-toggle-knob" />
+      </div>
+    </div>
+  );
+}
+
+function TweakRadio({ label, value, options, onChange }) {
+  return (
+    <div style={{ marginBottom: 10 }}>
+      <div className="tweak-label" style={{ marginBottom: 6 }}>{label}</div>
+      <div className="tweak-radio-group">
+        {options.map(opt => (
+          <button
+            key={opt.value}
+            className={`tweak-radio-btn ${value === opt.value ? 'active' : ''}`}
+            onClick={() => onChange(opt.value)}
+          >{opt.label}</button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function TweakButton({ label, onClick }) {
+  return (
+    <button className="tweak-btn" onClick={onClick}>{label}</button>
+  );
+}
+
+// ── widgets.jsx ──────────────────────────────────────────────────────
+function PigMascot({ size = 96, mood = "happy" }) {
+  const eye = mood === "sleep"
+    ? <line x1="-6" y1="0" x2="6" y2="0" stroke="#3a2530" strokeWidth="2" strokeLinecap="round" />
+    : <circle r="2.4" fill="#3a2530" />;
+  return (
+    <svg width={size} height={size} viewBox="-50 -50 100 100" className="bob">
+      <circle cx="-22" cy="-22" r="11" fill="var(--pink)" />
+      <circle cx="22" cy="-22" r="11" fill="var(--pink)" />
+      <circle cx="-22" cy="-22" r="6" fill="var(--pink-deep)" />
+      <circle cx="22" cy="-22" r="6" fill="var(--pink-deep)" />
+      <circle cx="0" cy="2" r="32" fill="var(--pink)" />
+      <circle cx="-18" cy="10" r="6" fill="var(--coral)" opacity="0.55" />
+      <circle cx="18" cy="10" r="6" fill="var(--coral)" opacity="0.55" />
+      <ellipse cx="0" cy="8" rx="14" ry="10" fill="var(--pink-deep)" />
+      <circle cx="-5" cy="8" r="2.2" fill="#3a2530" />
+      <circle cx="5" cy="8" r="2.2" fill="#3a2530" />
+      <g transform="translate(-11 -4)">{eye}</g>
+      <g transform="translate(11 -4)">{eye}</g>
+    </svg>
+  );
+}
+
+function DragHandle() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <circle cx="4" cy="3" r="1.3" fill="currentColor" />
+      <circle cx="10" cy="3" r="1.3" fill="currentColor" />
+      <circle cx="4" cy="7" r="1.3" fill="currentColor" />
+      <circle cx="10" cy="7" r="1.3" fill="currentColor" />
+      <circle cx="4" cy="11" r="1.3" fill="currentColor" />
+      <circle cx="10" cy="11" r="1.3" fill="currentColor" />
+    </svg>
+  );
+}
+
+function Widget({ id, title, emoji, span, children, onDragStart, onDragEnd, onDragOver, onDrop, isDragging, isOver }) {
+  return (
+    <section
+      className={`widget ${isDragging ? 'dragging' : ''} ${isOver ? 'drop-target' : ''}`}
+      style={{ gridColumn: `span ${span.col}`, gridRow: `span ${span.row}` }}
+      data-widget-id={id}
+      onDragOver={onDragOver}
+      onDrop={onDrop}
+    >
+      <header className="widget-head">
+        {emoji && <span className="widget-emoji" aria-hidden>{emoji}</span>}
+        <div className="widget-title">{title}</div>
+        <div
+          className="drag-handle"
+          draggable
+          onDragStart={onDragStart}
+          onDragEnd={onDragEnd}
+          title="끌어서 옮기기"
+        >
+          <DragHandle />
+        </div>
+      </header>
+      <div className="widget-body">{children}</div>
+    </section>
+  );
+}
+
+function SummaryWidget(props) {
+  const { showMascot } = props;
+  const isGain = totalPnl >= 0;
+  return (
+    <Widget {...props} title="아빠 자산" emoji="💰">
+      <div style={{ display: 'flex', gap: 18, alignItems: 'flex-start', flex: 1 }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <div>
+            <div className="label">총 평가금액</div>
+            <div className="big-num num" style={{ marginTop: 4 }}>{fmtKRW(totalAssets)}</div>
+            <div style={{ display: 'flex', gap: 8, marginTop: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+              <span className={`chip ${isGain ? 'gain' : 'loss'}`}>
+                {isGain ? '▲' : '▼'} {fmtKRW(Math.abs(totalPnl))}
+              </span>
+              <span className={`chip ${isGain ? 'gain' : 'loss'}`}>
+                {fmtPct(totalPnlPct)}
+              </span>
+              <span className="chip neutral">원금 대비</span>
+            </div>
+          </div>
+          <div style={{
+            marginTop: 18,
+            display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12,
+            paddingTop: 14, borderTop: '1px dashed var(--line)',
+          }}>
+            <div>
+              <div className="label">원금</div>
+              <div className="num" style={{ fontSize: 18, marginTop: 2, fontWeight: 600 }}>{fmtKRW(PORTFOLIO.principal)}</div>
+            </div>
+            <div>
+              <div className="label">예수금</div>
+              <div className="num" style={{ fontSize: 18, marginTop: 2, fontWeight: 600 }}>{fmtKRW(PORTFOLIO.cash)}</div>
+            </div>
+          </div>
+        </div>
+        {showMascot && (
+          <div style={{ flexShrink: 0, paddingTop: 4 }}>
+            <PigMascot size={92} />
+          </div>
+        )}
+      </div>
+    </Widget>
+  );
+}
+
+function TodayWidget(props) {
+  const isGain = PORTFOLIO.todayChange >= 0;
+  return (
+    <Widget {...props} title="오늘" emoji="✨">
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <div className="label">오늘 변동</div>
+        <div className={`mid-num num ${isGain ? 'gain' : 'loss'}`} style={{ marginTop: 4 }}>
+          {isGain ? '+' : '−'}{fmtKRW(Math.abs(PORTFOLIO.todayChange))}
+        </div>
+        <div style={{ marginTop: 8 }}>
+          <span className={`chip ${isGain ? 'gain' : 'loss'}`}>
+            {fmtPct(PORTFOLIO.todayChangePct)} 오늘
+          </span>
+        </div>
+        <div style={{ marginTop: 'auto', fontSize: 12, color: 'var(--ink-soft)' }}>
+          5월 27일 · 장중 14:32 기준
+        </div>
+      </div>
+    </Widget>
+  );
+}
+
+function EquityChartWidget(props) {
+  const wRef = useRef(null);
+  const [dims, setDims] = useState({ w: 400, h: 180 });
+  useEffect(() => {
+    if (!wRef.current) return;
+    const ro = new ResizeObserver(([e]) => setDims({ w: e.contentRect.width, h: e.contentRect.height }));
+    ro.observe(wRef.current);
+    return () => ro.disconnect();
+  }, []);
+
+  const data = EQUITY_CURVE;
+  const min = Math.min(...data);
+  const max = Math.max(...data);
+  const range = max - min || 1;
+  const padX = 8, padY = 18;
+  const W = Math.max(dims.w, 200);
+  const H = Math.max(dims.h - 30, 80);
+  const stepX = (W - padX * 2) / (data.length - 1);
+  const points = data.map((v, i) => [padX + i * stepX, padY + (H - padY * 2) * (1 - (v - min) / range)]);
+  const path = points.map(([x, y], i) => `${i === 0 ? 'M' : 'L'} ${x.toFixed(1)} ${y.toFixed(1)}`).join(' ');
+  const area = `${path} L ${points[points.length - 1][0].toFixed(1)} ${H - padY} L ${padX} ${H - padY} Z`;
+
+  const isGain = data[data.length - 1] > data[0];
+  const colorTop = isGain ? 'var(--mint-deep)' : 'var(--coral-deep)';
+  const last = points[points.length - 1];
+
+  return (
+    <Widget {...props} title="수익률 추이" emoji="📈">
+      <div style={{ display: 'flex', gap: 16, alignItems: 'baseline', marginBottom: 6 }}>
+        <div>
+          <span className="display" style={{ fontSize: 22 }}>{fmtPct(totalPnlPct)}</span>
+          <span className="label" style={{ marginLeft: 8 }}>30일</span>
+        </div>
+        <div style={{ marginLeft: 'auto', display: 'flex', gap: 6 }}>
+          {['1주', '1달', '3달', '전체'].map((l, i) => (
+            <button key={l} className="pill-btn" style={{ height: 26, padding: '0 10px', fontSize: 11, background: i === 1 ? 'var(--bg-soft)' : 'transparent' }}>{l}</button>
+          ))}
+        </div>
+      </div>
+      <div ref={wRef} style={{ flex: 1, position: 'relative', minHeight: 0 }}>
+        <svg width="100%" height="100%" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" style={{ display: 'block' }}>
+          <defs>
+            <linearGradient id="grad" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor={colorTop} stopOpacity="0.28" />
+              <stop offset="100%" stopColor={colorTop} stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          {[0.25, 0.5, 0.75].map(f => (
+            <line key={f} x1={padX} x2={W - padX} y1={padY + (H - padY * 2) * f} y2={padY + (H - padY * 2) * f}
+                  stroke="var(--line)" strokeDasharray="2 4" />
+          ))}
+          <path d={area} fill="url(#grad)" />
+          <path d={path} fill="none" stroke={colorTop} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+          <circle cx={last[0]} cy={last[1]} r="5" fill={colorTop} stroke="var(--card)" strokeWidth="2.5" />
+        </svg>
+      </div>
+    </Widget>
+  );
+}
+
+function AllocationWidget(props) {
+  const items = useMemo(() => [
+    ...HOLDINGS.map(h => ({ name: h.name, value: h.value, color: h.accent })),
+    { name: '예수금', value: PORTFOLIO.cash, color: 'var(--ink-faint)' },
+  ], []);
+  const total = items.reduce((s, i) => s + i.value, 0);
+
+  const R = 52, C = 2 * Math.PI * R;
+  let cum = 0;
+  const segs = items.map(it => {
+    const frac = it.value / total;
+    const dash = frac * C;
+    const offset = -cum;
+    cum += dash;
+    return { ...it, frac, dash, offset };
+  });
+
+  return (
+    <Widget {...props} title="자산 배분" emoji="🥧">
+      <div style={{ display: 'flex', gap: 18, alignItems: 'center', flex: 1, minHeight: 0 }}>
+        <div style={{ flexShrink: 0, position: 'relative', width: 130, height: 130 }}>
+          <svg width="130" height="130" viewBox="-65 -65 130 130" style={{ transform: 'rotate(-90deg)' }}>
+            <circle r={R} fill="none" stroke="var(--bg-soft)" strokeWidth="14" />
+            {segs.map((s, i) => (
+              <circle key={i} r={R} fill="none" stroke={s.color} strokeWidth="14"
+                      strokeDasharray={`${s.dash} ${C - s.dash}`}
+                      strokeDashoffset={s.offset}
+                      strokeLinecap="butt" />
+            ))}
+          </svg>
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+            <div className="label">종목수</div>
+            <div className="display" style={{ fontSize: 22 }}>{HOLDINGS.length}</div>
+          </div>
+        </div>
+        <div style={{ flex: 1, minWidth: 0, overflow: 'auto', maxHeight: '100%' }}>
+          {segs.map((s, i) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '5px 0', fontSize: 13 }}>
+              <span style={{ width: 10, height: 10, borderRadius: 4, background: s.color, flexShrink: 0 }} />
+              <span style={{ flex: 1, color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{s.name}</span>
+              <span className="num" style={{ color: 'var(--ink-soft)', fontWeight: 600 }}>{(s.frac * 100).toFixed(1)}%</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </Widget>
+  );
+}
+
+function HoldingsWidget(props) {
+  const sorted = useMemo(() => [...HOLDINGS].sort((a, b) => b.value - a.value), []);
+  return (
+    <Widget {...props} title="보유 종목" emoji="🛒">
+      <div style={{ flex: 1, overflow: 'auto', minHeight: 0 }}>
+        <div className="row head">
+          <div>종목</div>
+          <div style={{ textAlign: 'right' }}>평가액</div>
+          <div style={{ textAlign: 'right' }}>수익률</div>
+          <div style={{ textAlign: 'right' }}>비중</div>
+        </div>
+        {sorted.map(h => {
+          const pct = (h.value / holdingsTotal) * 100;
+          const isGain = h.pnl >= 0;
+          return (
+            <div key={h.ticker} className="row">
+              <div className="stock-name">
+                <span className="stock-avatar" style={{ background: h.color }}>{h.name[0]}</span>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{h.name}</div>
+                  <div style={{ fontSize: 11, color: 'var(--ink-soft)' }}>{h.shares}주 · 평단 {fmt(h.avg)}</div>
+                </div>
+              </div>
+              <div style={{ textAlign: 'right' }} className="num">
+                <div style={{ fontWeight: 600 }}>{fmtCompactKRW(h.value)}</div>
+                <div style={{ fontSize: 11, color: 'var(--ink-soft)' }}>{fmt(h.price)}원</div>
+              </div>
+              <div style={{ textAlign: 'right' }} className="num">
+                <div className={isGain ? 'gain' : 'loss'} style={{ fontWeight: 700 }}>{fmtPct(h.pnlPct)}</div>
+                <div className={`num ${isGain ? 'gain' : 'loss'}`} style={{ fontSize: 11, opacity: 0.85 }}>
+                  {isGain ? '+' : '−'}{fmtCompactKRW(Math.abs(h.pnl))}
+                </div>
+              </div>
+              <div style={{ textAlign: 'right' }}>
+                <div className="num" style={{ fontWeight: 600 }}>{pct.toFixed(1)}%</div>
+                <div className="alloc-bar" style={{ marginTop: 4 }}>
+                  <div className="alloc-seg" style={{ width: `${pct}%`, background: h.accent }} />
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </Widget>
+  );
+}
+
+function TransactionsWidget(props) {
+  return (
+    <Widget {...props} title="매매 기록" emoji="📒">
+      <div style={{ flex: 1, overflow: 'auto', minHeight: 0 }}>
+        {TRANSACTIONS.map((t, i) => {
+          const total = t.shares * t.price;
+          const isBuy = t.type === 'buy';
+          return (
+            <div key={i} className="tx">
+              <span className={`tx-icon ${isBuy ? 'buy' : 'sell'}`}>{isBuy ? '매수' : '매도'}</span>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ display: 'flex', gap: 8, alignItems: 'baseline' }}>
+                  <span style={{ fontWeight: 600 }}>{t.name}</span>
+                  <span className="num" style={{ fontSize: 12, color: 'var(--ink-soft)' }}>{t.shares}주 × {fmt(t.price)}원</span>
+                </div>
+                <div style={{ fontSize: 11.5, color: 'var(--ink-soft)', marginTop: 2 }}>
+                  {t.date.slice(5)} {t.note && <span>· {t.note}</span>}
+                </div>
+              </div>
+              <div className="num" style={{ fontWeight: 700, color: isBuy ? 'var(--ink)' : 'var(--loss)', whiteSpace: 'nowrap' }}>
+                {isBuy ? '−' : '+'}{fmtCompactKRW(total)}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </Widget>
+  );
+}
+
+function MascotWidget(props) {
+  const msgs = [
+    "오늘도 든든하게 +1.21% 올랐어요!",
+    "아빠 안심하세요, 분산 잘 되어있어요.",
+    "수익실현 한 LG엔솔로 카카오 추가매수 했어요.",
+    "다음주 실적 발표 있는 종목이 2개 있어요.",
+  ];
+  return (
+    <Widget {...props} title="딸 한마디" emoji="💌">
+      <div style={{ display: 'flex', gap: 14, alignItems: 'center', flex: 1 }}>
+        <div style={{ flexShrink: 0 }}>
+          <PigMascot size={64} />
+        </div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div className="bubble">{msgs[0]}</div>
+          <div style={{ marginTop: 10, fontSize: 11.5, color: 'var(--ink-soft)' }}>
+            마지막 업데이트 · 오늘 14:32
+          </div>
+        </div>
+      </div>
+    </Widget>
+  );
+}
+
+function BestWorstWidget(props) {
+  const sorted = [...HOLDINGS].sort((a, b) => b.pnlPct - a.pnlPct);
+  const best = sorted[0], worst = sorted[sorted.length - 1];
+  return (
+    <Widget {...props} title="오늘의 효자/효녀" emoji="🏆">
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 10, justifyContent: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', background: 'var(--gain-bg)', borderRadius: 14 }}>
+          <span style={{ fontSize: 20 }}>🥇</span>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontWeight: 700, fontSize: 14 }}>{best.name}</div>
+            <div className="label">이번달 최고 효자</div>
+          </div>
+          <div className="num gain" style={{ fontWeight: 700, fontSize: 16 }}>{fmtPct(best.pnlPct)}</div>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', background: 'var(--loss-bg)', borderRadius: 14 }}>
+          <span style={{ fontSize: 20 }}>💧</span>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontWeight: 700, fontSize: 14 }}>{worst.name}</div>
+            <div className="label">조금 쉬는 중</div>
+          </div>
+          <div className="num loss" style={{ fontWeight: 700, fontSize: 16 }}>{fmtPct(worst.pnlPct)}</div>
+        </div>
+      </div>
+    </Widget>
+  );
+}
+
+// ── app.jsx ───────────────────────────────────────────────────────────
+const WIDGET_CATALOG = {
+  summary:      { render: SummaryWidget,      span: { col: 6, row: 3 }, label: "자산 요약" },
+  today:        { render: TodayWidget,        span: { col: 3, row: 2 }, label: "오늘 변동" },
+  bestworst:    { render: BestWorstWidget,    span: { col: 3, row: 3 }, label: "효자/효녀" },
+  chart:        { render: EquityChartWidget,  span: { col: 6, row: 3 }, label: "수익률 추이" },
+  allocation:   { render: AllocationWidget,   span: { col: 6, row: 3 }, label: "자산 배분" },
+  holdings:     { render: HoldingsWidget,     span: { col: 7, row: 4 }, label: "보유 종목" },
+  transactions: { render: TransactionsWidget, span: { col: 5, row: 4 }, label: "매매 기록" },
+  mascot:       { render: MascotWidget,       span: { col: 6, row: 2 }, label: "딸 한마디" },
+};
+
+const DEFAULT_ORDER = [
+  "summary", "today", "bestworst",
+  "chart", "allocation",
+  "holdings", "transactions",
+  "mascot",
+];
+
+const LS_ORDER = "abangi.widgetOrder.v1";
+const LS_THEME = "abangi.theme";
+
+function App() {
+  const [theme, setTheme] = useState(() => {
+    const urlTheme = new URLSearchParams(location.search).get('theme');
+    if (urlTheme === 'dark' || urlTheme === 'light') return urlTheme;
+    return localStorage.getItem(LS_THEME) || 'light';
+  });
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    if (!new URLSearchParams(location.search).get('theme')) {
+      localStorage.setItem(LS_THEME, theme);
+    }
+  }, [theme]);
+
+  const [order, setOrder] = useState(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(LS_ORDER));
+      if (Array.isArray(saved) && saved.every(id => WIDGET_CATALOG[id])) return saved;
+    } catch {}
+    return DEFAULT_ORDER;
+  });
+  useEffect(() => {
+    localStorage.setItem(LS_ORDER, JSON.stringify(order));
+  }, [order]);
+
+  const [tweaks, setTweak] = useTweaks(window.TWEAK_DEFAULTS);
+  const [draggingId, setDraggingId] = useState(null);
+  const [overId, setOverId] = useState(null);
+
+  const handleDragStart = (id) => (e) => {
+    setDraggingId(id);
+    e.dataTransfer.effectAllowed = 'move';
+    const widgetEl = e.currentTarget.closest('.widget');
+    if (widgetEl) {
+      const rect = widgetEl.getBoundingClientRect();
+      e.dataTransfer.setDragImage(widgetEl, rect.width / 2, 30);
+    }
+    try { e.dataTransfer.setData('text/plain', id); } catch {}
+  };
+  const handleDragEnd = () => { setDraggingId(null); setOverId(null); };
+  const handleDragOver = (id) => (e) => {
+    e.preventDefault();
+    if (draggingId && draggingId !== id) setOverId(id);
+  };
+  const handleDrop = (id) => (e) => {
+    e.preventDefault();
+    if (!draggingId || draggingId === id) return;
+    setOrder(curr => {
+      const next = [...curr];
+      const from = next.indexOf(draggingId);
+      const to   = next.indexOf(id);
+      if (from < 0 || to < 0) return curr;
+      next.splice(from, 1);
+      next.splice(to, 0, draggingId);
+      return next;
+    });
+    setDraggingId(null);
+    setOverId(null);
+  };
+
+  const resetLayout = () => {
+    if (confirm('레이아웃을 처음 상태로 되돌릴까요?')) setOrder(DEFAULT_ORDER);
+  };
+
+  const accentMap = {
+    pink:     'linear-gradient(135deg, #FFB6C8, #C9B8FF)',
+    mint:     'linear-gradient(135deg, #8AD6B5, #A8D5FF)',
+    yellow:   'linear-gradient(135deg, #FFD978, #FFB6C8)',
+    lavender: 'linear-gradient(135deg, #C9B8FF, #A8D5FF)',
+  };
+  const accentBg = accentMap[tweaks.accent] || accentMap.pink;
+
+  return (
+    <>
+      <header className="topbar">
+        <div className="brand">
+          <div className="brand-mark" style={{ background: accentBg }}>
+            <PigMascot size={32} />
+          </div>
+          <div>
+            <div className="brand-name">아방이</div>
+            <div className="brand-sub">아빠 위해 만든 포트폴리오</div>
+          </div>
+        </div>
+        <div className="topbar-actions">
+          <button className="pill-btn" onClick={resetLayout} title="레이아웃 초기화">
+            <span style={{ fontSize: 14 }}>↺</span> 레이아웃 초기화
+          </button>
+          <div
+            className="theme-toggle"
+            onClick={() => setTheme(t => t === 'light' ? 'dark' : 'light')}
+            role="button" aria-label="다크모드 전환"
+          >
+            <div className="knob">{theme === 'light' ? '☀️' : '🌙'}</div>
+          </div>
+        </div>
+      </header>
+
+      <main className="shell">
+        <div className="hint">
+          <span>✋</span>
+          <span>위젯 우측 상단 <strong style={{ color: 'var(--ink)' }}>⋮⋮</strong> 핸들을 잡고 다른 위젯에 놓으면 자리가 바뀌어요</span>
+        </div>
+
+        <div className="grid">
+          {order.map(id => {
+            const def = WIDGET_CATALOG[id];
+            if (!def) return null;
+            if (id === 'mascot' && !tweaks.showMascot) return null;
+            const W = def.render;
+            return (
+              <W
+                key={id}
+                id={id}
+                span={def.span}
+                isDragging={draggingId === id}
+                isOver={overId === id && draggingId !== id}
+                onDragStart={handleDragStart(id)}
+                onDragEnd={handleDragEnd}
+                onDragOver={handleDragOver(id)}
+                onDrop={handleDrop(id)}
+                showMascot={tweaks.showMascot}
+                compactNumbers={tweaks.compactNumbers}
+              />
+            );
+          })}
+        </div>
+
+        <footer style={{ marginTop: 40, textAlign: 'center', color: 'var(--ink-faint)', fontSize: 12 }}>
+          <span>키움 OpenAPI 연동 · 5분마다 자동 새로고침</span>
+        </footer>
+      </main>
+
+      <TweaksPanel title="Tweaks">
+        <TweakSection label="외관">
+          <TweakRadio
+            label="포인트"
+            value={tweaks.accent}
+            options={[
+              { value: 'pink',     label: '핑크' },
+              { value: 'mint',     label: '민트' },
+              { value: 'yellow',   label: '노랑' },
+              { value: 'lavender', label: '라벤더' },
+            ]}
+            onChange={v => setTweak('accent', v)}
+          />
+          <TweakToggle
+            label="마스코트 표시"
+            value={tweaks.showMascot}
+            onChange={v => setTweak('showMascot', v)}
+          />
+          <TweakRadio
+            label="시작 테마"
+            value={theme}
+            options={[
+              { value: 'light', label: '라이트' },
+              { value: 'dark',  label: '다크' },
+            ]}
+            onChange={v => setTheme(v)}
+          />
+        </TweakSection>
+        <TweakSection label="레이아웃">
+          <TweakButton label="레이아웃 초기화" onClick={resetLayout} />
+        </TweakSection>
+      </TweaksPanel>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+
+</body>
+</html>
