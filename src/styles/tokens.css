@@ -1,0 +1,73 @@
+/* 디자인 토큰 — legacy/index.html 기준 */
+
+:root {
+  --bg: #FFF6EE;
+  --bg-soft: #FFEEDD;
+  --card: #FFFFFF;
+  --card-soft: #FFF8F2;
+  --ink: #2A2533;
+  --ink-soft: #7A7388;
+  --ink-faint: #B6B0C0;
+  --line: rgba(42, 37, 51, 0.08);
+  --line-strong: rgba(42, 37, 51, 0.14);
+
+  --pink: #FFB6C8;
+  --pink-deep: #F58BA6;
+  --mint: #8AD6B5;
+  --mint-deep: #4FB991;
+  --coral: #FF9989;
+  --coral-deep: #F1604C;
+  --yellow: #FFD978;
+  --yellow-deep: #F0B844;
+  --lav: #C9B8FF;
+  --lav-deep: #9C84F0;
+  --sky: #A8D5FF;
+  --sky-deep: #6CABE8;
+
+  --gain: var(--mint-deep);
+  --gain-bg: #E5F6EE;
+  --loss: var(--coral-deep);
+  --loss-bg: #FFE7E1;
+
+  --shadow-sm: 0 1px 0 rgba(42, 37, 51, 0.04), 0 4px 14px -8px rgba(42, 37, 51, 0.12);
+  --shadow-md: 0 1px 0 rgba(42, 37, 51, 0.04), 0 16px 32px -18px rgba(42, 37, 51, 0.18);
+  --shadow-lift: 0 24px 60px -24px rgba(42, 37, 51, 0.32);
+
+  --radius-sm: 14px;
+  --radius: 22px;
+  --radius-lg: 28px;
+}
+
+[data-theme="dark"] {
+  --bg: #15131F;
+  --bg-soft: #1C1A28;
+  --card: #232032;
+  --card-soft: #2B2740;
+  --ink: #F4EFE4;
+  --ink-soft: #9A93AA;
+  --ink-faint: #6B6478;
+  --line: rgba(255, 255, 255, 0.06);
+  --line-strong: rgba(255, 255, 255, 0.12);
+
+  --pink: #F8A9BD;
+  --pink-deep: #FF9DB6;
+  --mint: #6FCAA8;
+  --mint-deep: #88E1BD;
+  --coral: #FF9C8C;
+  --coral-deep: #FF8775;
+  --yellow: #FFD37A;
+  --yellow-deep: #FFCD66;
+  --lav: #B8A4FF;
+  --lav-deep: #C9B8FF;
+  --sky: #9BCBFA;
+  --sky-deep: #B6DBFB;
+
+  --gain: var(--mint-deep);
+  --gain-bg: rgba(136, 225, 189, 0.14);
+  --loss: var(--coral-deep);
+  --loss-bg: rgba(255, 135, 117, 0.16);
+
+  --shadow-sm: 0 1px 0 rgba(0, 0, 0, 0.4), 0 6px 16px -10px rgba(0, 0, 0, 0.6);
+  --shadow-md: 0 2px 0 rgba(0, 0, 0, 0.3), 0 18px 32px -20px rgba(0, 0, 0, 0.7);
+  --shadow-lift: 0 32px 70px -28px rgba(0, 0, 0, 0.8);
+}
