@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { Responsive, WidthProvider, type Layout } from 'react-grid-layout'
 import 'react-grid-layout/css/styles.css'
 import { useDashboardStore } from '../../stores'
@@ -8,6 +8,13 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive)
 
 const BREAKPOINTS = { lg: 1200, md: 768, sm: 480, xs: 0 }
 const COLS = { lg: 12, md: 6, sm: 2, xs: 1 }
+
+function getBreakpoint(w: number) {
+  if (w >= 1200) return 'lg'
+  if (w >= 768) return 'md'
+  if (w >= 480) return 'sm'
+  return 'xs'
+}
 
 // xs 순서 — 모바일은 grid 대신 수직 스택으로 렌더링
 const XS_ORDER: WidgetId[] = [
@@ -20,7 +27,15 @@ interface DashboardGridProps {
 
 export function DashboardGrid({ children }: DashboardGridProps) {
   const { layouts, visible, setLayouts } = useDashboardStore()
-  const [currentBreakpoint, setCurrentBreakpoint] = useState('lg')
+  const [currentBreakpoint, setCurrentBreakpoint] = useState(() =>
+    typeof window !== 'undefined' ? getBreakpoint(window.innerWidth) : 'lg',
+  )
+
+  useEffect(() => {
+    const onResize = () => setCurrentBreakpoint(getBreakpoint(window.innerWidth))
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
 
   const visibleIds = (list: DashboardLayout[]) =>
     list.filter((l) => visible[l.i])
@@ -92,7 +107,6 @@ export function DashboardGrid({ children }: DashboardGridProps) {
       isDraggable
       isResizable
       onLayoutChange={handleLayoutChange}
-      onBreakpointChange={(bp) => setCurrentBreakpoint(bp)}
       margin={[14, 14]}
       containerPadding={[0, 0]}
       resizeHandles={['se']}
