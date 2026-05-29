@@ -50,6 +50,6 @@ export const useDashboardStore = create<DashboardStore>()(
       resetLayouts: () =>
         set({ layouts: DEFAULT_LAYOUTS, visible: DEFAULT_VISIBLE }),
     }),
-    { name: 'abangi.dashboard.v3' },
+    { name: 'abangi.dashboard.v2' },
   ),
 )
