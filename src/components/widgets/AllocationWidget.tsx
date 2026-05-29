@@ -15,7 +15,7 @@ export function AllocationWidget() {
         </div>
       )}
       {data && data.length > 0 && (
-        <div className="px-2 pb-3 h-full">
+        <div className="widget-chart-area px-2 pb-3 h-full">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie

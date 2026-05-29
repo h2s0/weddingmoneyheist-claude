@@ -31,15 +31,9 @@ const SM_LAYOUTS: DashboardLayout[] = [
   { i: 'transactions', x: 0, y: 19, w: 2, h: 4 },
 ]
 
-const XS_LAYOUTS: DashboardLayout[] = [
-  { i: 'summary',      x: 0, y: 0,  w: 1, h: 4 },
-  { i: 'today',        x: 0, y: 4,  w: 1, h: 2 },
-  { i: 'bestworst',    x: 0, y: 6,  w: 1, h: 3 },
-  { i: 'chart',        x: 0, y: 9,  w: 1, h: 4 },
-  { i: 'allocation',   x: 0, y: 13, w: 1, h: 4 },
-  { i: 'mascot',       x: 0, y: 17, w: 1, h: 3 },
-  { i: 'holdings',     x: 0, y: 20, w: 1, h: 4 },
-  { i: 'transactions', x: 0, y: 24, w: 1, h: 4 },
+// xs 순서 — 모바일은 grid 대신 수직 스택으로 렌더링
+const XS_ORDER: WidgetId[] = [
+  'summary', 'today', 'bestworst', 'chart', 'allocation', 'mascot', 'holdings', 'transactions',
 ]
 
 interface DashboardGridProps {
@@ -52,13 +46,6 @@ export function DashboardGrid({ children }: DashboardGridProps) {
 
   const visibleIds = (list: DashboardLayout[]) =>
     list.filter((l) => visible[l.i])
-
-  const allLayouts = {
-    lg: visibleIds(layouts),
-    md: visibleIds(MD_LAYOUTS),
-    sm: visibleIds(SM_LAYOUTS),
-    xs: visibleIds(XS_LAYOUTS),
-  }
 
   const handleLayoutChange = useCallback(
     (_: Layout[], all: Record<string, Layout[]>) => {
@@ -78,6 +65,23 @@ export function DashboardGrid({ children }: DashboardGridProps) {
   )
 
   const isDraggable = currentBreakpoint === 'lg'
+
+  // 모바일(xs): grid 없이 수직 스택 — 위젯이 내용 높이에 맞게 자동 확장
+  if (currentBreakpoint === 'xs') {
+    return (
+      <div className="mobile-grid flex flex-col gap-[14px]">
+        {XS_ORDER.filter((id) => visible[id]).map((id) => (
+          <div key={id}>{children(id)}</div>
+        ))}
+      </div>
+    )
+  }
+
+  const allLayouts = {
+    lg: visibleIds(layouts),
+    md: visibleIds(MD_LAYOUTS),
+    sm: visibleIds(SM_LAYOUTS),
+  }
 
   return (
     <ResponsiveReactGridLayout

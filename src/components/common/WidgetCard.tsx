@@ -12,6 +12,7 @@ export function WidgetCard({ title, emoji, children, className }: WidgetCardProp
   return (
     <div
       className={clsx(
+        'widget-card',
         'group relative flex flex-col h-full overflow-hidden',
         'bg-card border border-[var(--line)] rounded-[var(--radius)]',
         'shadow-sm transition-shadow duration-200',
@@ -30,7 +31,7 @@ export function WidgetCard({ title, emoji, children, className }: WidgetCardProp
         <div className="font-display text-[17px] text-ink flex-1">{title}</div>
         <DragHandle />
       </header>
-      <div className="flex-1 overflow-hidden">{children}</div>
+      <div className="widget-body flex-1 overflow-hidden">{children}</div>
     </div>
   )
 }

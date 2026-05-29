@@ -31,7 +31,7 @@ export function EquityChartWidget() {
         </div>
       )}
       {data && data.length > 0 && (
-        <div className="px-2 pb-3 h-full">
+        <div className="widget-chart-area px-2 pb-3 h-full">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
               <defs>
