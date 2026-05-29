@@ -11,24 +11,24 @@ const COLS = { lg: 12, md: 6, sm: 2, xs: 1 }
 
 const MD_LAYOUTS: DashboardLayout[] = [
   { i: 'summary',      x: 0, y: 0,  w: 6, h: 3 },
-  { i: 'today',        x: 0, y: 3,  w: 3, h: 2 },
+  { i: 'today',        x: 0, y: 3,  w: 3, h: 3 },
   { i: 'bestworst',    x: 3, y: 3,  w: 3, h: 3 },
   { i: 'chart',        x: 0, y: 6,  w: 6, h: 3 },
-  { i: 'allocation',   x: 0, y: 9,  w: 6, h: 3 },
-  { i: 'holdings',     x: 0, y: 12, w: 6, h: 4 },
-  { i: 'transactions', x: 0, y: 16, w: 6, h: 4 },
-  { i: 'mascot',       x: 0, y: 20, w: 6, h: 2 },
+  { i: 'allocation',   x: 0, y: 9,  w: 3, h: 3 },
+  { i: 'mascot',       x: 3, y: 9,  w: 3, h: 3 },
+  { i: 'holdings',     x: 0, y: 12, w: 6, h: 3 },
+  { i: 'transactions', x: 0, y: 15, w: 6, h: 3 },
 ]
 
 const SM_LAYOUTS: DashboardLayout[] = [
   { i: 'summary',      x: 0, y: 0,  w: 2, h: 4 },
-  { i: 'today',        x: 0, y: 4,  w: 1, h: 2 },
+  { i: 'today',        x: 0, y: 4,  w: 1, h: 3 },
   { i: 'bestworst',    x: 1, y: 4,  w: 1, h: 3 },
   { i: 'chart',        x: 0, y: 7,  w: 2, h: 4 },
-  { i: 'allocation',   x: 0, y: 11, w: 2, h: 4 },
-  { i: 'holdings',     x: 0, y: 15, w: 2, h: 5 },
-  { i: 'transactions', x: 0, y: 20, w: 2, h: 5 },
-  { i: 'mascot',       x: 0, y: 25, w: 2, h: 3 },
+  { i: 'allocation',   x: 0, y: 11, w: 1, h: 4 },
+  { i: 'mascot',       x: 1, y: 11, w: 1, h: 4 },
+  { i: 'holdings',     x: 0, y: 15, w: 2, h: 4 },
+  { i: 'transactions', x: 0, y: 19, w: 2, h: 4 },
 ]
 
 const XS_LAYOUTS: DashboardLayout[] = [
@@ -37,9 +37,9 @@ const XS_LAYOUTS: DashboardLayout[] = [
   { i: 'bestworst',    x: 0, y: 6,  w: 1, h: 3 },
   { i: 'chart',        x: 0, y: 9,  w: 1, h: 4 },
   { i: 'allocation',   x: 0, y: 13, w: 1, h: 4 },
-  { i: 'holdings',     x: 0, y: 17, w: 1, h: 5 },
-  { i: 'transactions', x: 0, y: 22, w: 1, h: 5 },
-  { i: 'mascot',       x: 0, y: 27, w: 1, h: 3 },
+  { i: 'mascot',       x: 0, y: 17, w: 1, h: 3 },
+  { i: 'holdings',     x: 0, y: 20, w: 1, h: 4 },
+  { i: 'transactions', x: 0, y: 24, w: 1, h: 4 },
 ]
 
 interface DashboardGridProps {
@@ -84,7 +84,7 @@ export function DashboardGrid({ children }: DashboardGridProps) {
       layouts={allLayouts}
       breakpoints={BREAKPOINTS}
       cols={COLS}
-      rowHeight={88}
+      rowHeight={76}
       draggableHandle=".drag-handle"
       isDraggable={isDraggable}
       isResizable={isDraggable}
