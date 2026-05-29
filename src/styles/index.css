@@ -43,19 +43,22 @@
   }
 }
 
-/* 모바일 수직 스택: 위젯 고정 높이 해제 → 내용에 맞게 자동 확장 */
-.mobile-grid .widget-card {
+/* 모바일/태블릿 스택: 위젯 고정 높이 해제 → 내용에 맞게 자동 확장 */
+.mobile-grid .widget-card,
+.tablet-grid .widget-card {
   height: auto;
   overflow: visible;
 }
-.mobile-grid .widget-body {
+.mobile-grid .widget-body,
+.tablet-grid .widget-body {
   overflow: visible;
   flex: none;
   height: auto;
 }
 
 /* 차트는 ResponsiveContainer가 부모 높이를 필요로 하므로 고정 높이 */
-.mobile-grid .widget-chart-area {
+.mobile-grid .widget-chart-area,
+.tablet-grid .widget-chart-area {
   height: 240px;
 }
 
