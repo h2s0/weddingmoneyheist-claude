@@ -1,22 +1,69 @@
-import { useCallback } from 'react'
-import ReactGridLayout, { type Layout } from 'react-grid-layout'
+import { useState, useCallback } from 'react'
+import { Responsive, WidthProvider, type Layout } from 'react-grid-layout'
 import 'react-grid-layout/css/styles.css'
 import { useDashboardStore } from '../../stores'
 import type { DashboardLayout, WidgetId } from '../../types'
 
+const ResponsiveReactGridLayout = WidthProvider(Responsive)
+
+const BREAKPOINTS = { lg: 1200, md: 768, sm: 480, xs: 0 }
+const COLS = { lg: 12, md: 6, sm: 2, xs: 1 }
+
+const MD_LAYOUTS: DashboardLayout[] = [
+  { i: 'summary',      x: 0, y: 0,  w: 6, h: 3 },
+  { i: 'today',        x: 0, y: 3,  w: 3, h: 2 },
+  { i: 'bestworst',    x: 3, y: 3,  w: 3, h: 3 },
+  { i: 'chart',        x: 0, y: 6,  w: 6, h: 3 },
+  { i: 'allocation',   x: 0, y: 9,  w: 6, h: 3 },
+  { i: 'holdings',     x: 0, y: 12, w: 6, h: 4 },
+  { i: 'transactions', x: 0, y: 16, w: 6, h: 4 },
+  { i: 'mascot',       x: 0, y: 20, w: 6, h: 2 },
+]
+
+const SM_LAYOUTS: DashboardLayout[] = [
+  { i: 'summary',      x: 0, y: 0,  w: 2, h: 4 },
+  { i: 'today',        x: 0, y: 4,  w: 1, h: 2 },
+  { i: 'bestworst',    x: 1, y: 4,  w: 1, h: 3 },
+  { i: 'chart',        x: 0, y: 7,  w: 2, h: 4 },
+  { i: 'allocation',   x: 0, y: 11, w: 2, h: 4 },
+  { i: 'holdings',     x: 0, y: 15, w: 2, h: 5 },
+  { i: 'transactions', x: 0, y: 20, w: 2, h: 5 },
+  { i: 'mascot',       x: 0, y: 25, w: 2, h: 3 },
+]
+
+const XS_LAYOUTS: DashboardLayout[] = [
+  { i: 'summary',      x: 0, y: 0,  w: 1, h: 4 },
+  { i: 'today',        x: 0, y: 4,  w: 1, h: 2 },
+  { i: 'bestworst',    x: 0, y: 6,  w: 1, h: 3 },
+  { i: 'chart',        x: 0, y: 9,  w: 1, h: 4 },
+  { i: 'allocation',   x: 0, y: 13, w: 1, h: 4 },
+  { i: 'holdings',     x: 0, y: 17, w: 1, h: 5 },
+  { i: 'transactions', x: 0, y: 22, w: 1, h: 5 },
+  { i: 'mascot',       x: 0, y: 27, w: 1, h: 3 },
+]
+
 interface DashboardGridProps {
   children: (id: WidgetId) => React.ReactNode
-  width: number
 }
 
-export function DashboardGrid({ children, width }: DashboardGridProps) {
+export function DashboardGrid({ children }: DashboardGridProps) {
   const { layouts, visible, setLayouts } = useDashboardStore()
+  const [currentBreakpoint, setCurrentBreakpoint] = useState('lg')
 
-  const visibleLayouts = layouts.filter((l) => visible[l.i])
+  const visibleIds = (list: DashboardLayout[]) =>
+    list.filter((l) => visible[l.i])
+
+  const allLayouts = {
+    lg: visibleIds(layouts),
+    md: visibleIds(MD_LAYOUTS),
+    sm: visibleIds(SM_LAYOUTS),
+    xs: visibleIds(XS_LAYOUTS),
+  }
 
   const handleLayoutChange = useCallback(
-    (next: Layout[]) => {
-      const updated: DashboardLayout[] = next.map((l) => ({
+    (_: Layout[], all: Record<string, Layout[]>) => {
+      if (currentBreakpoint !== 'lg') return
+      const next = (all['lg'] ?? []).map((l) => ({
         i: l.i as WidgetId,
         x: l.x,
         y: l.y,
@@ -25,26 +72,31 @@ export function DashboardGrid({ children, width }: DashboardGridProps) {
         minW: layouts.find((o) => o.i === l.i)?.minW,
         minH: layouts.find((o) => o.i === l.i)?.minH,
       }))
-      setLayouts(updated)
+      setLayouts(next)
     },
-    [layouts, setLayouts],
+    [currentBreakpoint, layouts, setLayouts],
   )
 
+  const isDraggable = currentBreakpoint === 'lg'
+
   return (
-    <ReactGridLayout
-      layout={visibleLayouts}
-      cols={12}
+    <ResponsiveReactGridLayout
+      layouts={allLayouts}
+      breakpoints={BREAKPOINTS}
+      cols={COLS}
       rowHeight={88}
-      width={width}
       draggableHandle=".drag-handle"
+      isDraggable={isDraggable}
+      isResizable={isDraggable}
       onLayoutChange={handleLayoutChange}
-      margin={[18, 18]}
+      onBreakpointChange={(bp) => setCurrentBreakpoint(bp)}
+      margin={[14, 14]}
       containerPadding={[0, 0]}
       resizeHandles={['se']}
     >
-      {visibleLayouts.map((l) => (
+      {visibleIds(layouts).map((l) => (
         <div key={l.i}>{children(l.i)}</div>
       ))}
-    </ReactGridLayout>
+    </ResponsiveReactGridLayout>
   )
 }
