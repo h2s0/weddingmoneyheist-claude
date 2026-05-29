@@ -14,7 +14,7 @@ export function BestWorstWidget() {
   }, [data])
 
   return (
-    <WidgetCard title="오늘의 효자/효녀" emoji="🏆">
+    <WidgetCard title="오늘의 MVP/꼴찌" emoji="🏆">
       {isLoading && <WidgetSkeleton />}
       {isError && <WidgetError />}
       {data && !best && (
@@ -25,8 +25,8 @@ export function BestWorstWidget() {
       {best && worst && (
         <div className="flex flex-col gap-3 px-[22px] py-4 h-full">
           {[
-            { label: '효자 📈', item: best },
-            { label: '효녀 📉', item: worst },
+            { label: '오늘의 MVP 📈', item: best },
+            { label: '오늘의 꼴찌 📉', item: worst },
           ].map(({ label, item }) => (
             <div
               key={item.id}
