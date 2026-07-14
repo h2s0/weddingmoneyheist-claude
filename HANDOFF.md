@@ -9,9 +9,10 @@
 
 1. 이 문서(`HANDOFF.md`)를 끝까지 읽는다.
 2. `AGENTS.md`를 읽는다 — 프로젝트의 모든 규칙이 여기 있다.
-3. `.codex/skills/add-widget/SKILL.md`를 확인한다 — 위젯 추가 표준 절차.
-4. `legacy/index.html`을 열어 디자인 기준을 눈으로 확인한다(색·둥근정도·그림자·마스코트·말풍선·라이트/다크 느낌).
-5. 구현 전 성공 기준, 영향 파일, 리스크를 정리한다. (`AGENTS.md` "코딩 전 반드시 생각할 것")
+3. `docs/FRONTEND_GUIDELINES.md`를 읽는다 — React 구현 및 리뷰 기준.
+4. 새 위젯 작업이면 `.codex/skills/add-widget/SKILL.md`를 확인한다.
+5. `legacy/index.html`을 열어 디자인 기준을 눈으로 확인한다(색·둥근정도·그림자·마스코트·말풍선·라이트/다크 느낌).
+6. 구현 전 성공 기준, 영향 파일, 리스크를 정리한다. (`AGENTS.md` "코딩 전 반드시 생각할 것")
 
 ---
 
@@ -33,6 +34,7 @@
 │       ├── add-widget/SKILL.md         ← "새 위젯 추가" 표준 절차
 │       └── commit/SKILL.md             ← 검증 및 커밋 절차
 ├── src/                               ← React/TypeScript 애플리케이션
+├── docs/FRONTEND_GUIDELINES.md        ← React 구현 및 리뷰 기준
 ├── docs/TASKS.md                      ← 구현 작업 현황
 └── legacy/
     └── index.html                     ← 디자인 기준 원본 (참조 전용, 코드 복사 금지)

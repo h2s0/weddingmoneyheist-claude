@@ -51,9 +51,10 @@
 
 아래는 프로젝트 보조 문서다. 존재할 경우에만 이 순서로 읽고, 없으면 건너뛴다.
 
-4. `docs/SPEC.md` — 기능 명세(있는 경우)
-5. `docs/TASKS.md` — 작업 목록(있는 경우)
-6. 디자인 레퍼런스 — `legacy/index.html`(기준 HTML)
+4. `docs/FRONTEND_GUIDELINES.md` — React 프론트엔드 구현 및 리뷰 기준
+5. `docs/SPEC.md` — 기능 명세(있는 경우)
+6. `docs/TASKS.md` — 작업 목록(있는 경우)
+7. 디자인 레퍼런스 — `legacy/index.html`(기준 HTML)
 
 아키텍처와 디자인 기준을 충분히 이해하기 전까지 구현을 시작하지 않는다.
 
