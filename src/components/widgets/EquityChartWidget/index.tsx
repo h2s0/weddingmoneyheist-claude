@@ -1,25 +1,17 @@
-import { useMemo } from 'react'
 import {
-  AreaChart,
   Area,
+  AreaChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  Tooltip,
-  ResponsiveContainer,
 } from 'recharts'
-import { useEquityCurve } from '../../api'
-import { WidgetCard, WidgetSkeleton, WidgetError } from '../common'
-import { formatDate, formatAmount } from '../../lib'
+import { formatAmount, formatDate } from '../../../lib'
+import { WidgetCard, WidgetError, WidgetSkeleton } from '../../common'
+import { useEquityChartWidget } from './index.hooks'
 
 export function EquityChartWidget() {
-  const { data, isLoading, isError } = useEquityCurve()
-
-  const isPositive = useMemo(() => {
-    if (!data || data.length < 2) return true
-    return data[data.length - 1].gainPct >= 0
-  }, [data])
-
-  const color = isPositive ? 'var(--mint-deep)' : 'var(--coral-deep)'
+  const { data, isLoading, isError, color } = useEquityChartWidget()
 
   return (
     <WidgetCard title="수익률 추이" emoji="📈">

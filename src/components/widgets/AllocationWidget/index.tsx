@@ -1,6 +1,6 @@
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts'
-import { useAllocation } from '../../api'
-import { WidgetCard, WidgetSkeleton, WidgetError } from '../common'
+import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
+import { useAllocation } from '../../../api'
+import { WidgetCard, WidgetError, WidgetSkeleton } from '../../common'
 
 export function AllocationWidget() {
   const { data, isLoading, isError } = useAllocation()
@@ -32,7 +32,7 @@ export function AllocationWidget() {
                 {data.map((item) => (
                   <Cell
                     key={item.id}
-                    fill={item.color.startsWith('var(') ? `hsl(0 0% 60%)` : item.color}
+                    fill={item.color.startsWith('var(') ? 'hsl(0 0% 60%)' : item.color}
                     style={{ fill: item.color }}
                   />
                 ))}

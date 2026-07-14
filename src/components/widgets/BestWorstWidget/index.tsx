@@ -1,17 +1,10 @@
-import { useMemo } from 'react'
-import { useHoldings } from '../../api'
-import { WidgetCard, WidgetSkeleton, WidgetError } from '../common'
-import { formatPct, formatAmount, isGain } from '../../lib'
 import clsx from 'clsx'
+import { formatAmount, formatPct, isGain } from '../../../lib'
+import { WidgetCard, WidgetError, WidgetSkeleton } from '../../common'
+import { useBestWorstWidget } from './index.hooks'
 
 export function BestWorstWidget() {
-  const { data, isLoading, isError } = useHoldings()
-
-  const { best, worst } = useMemo(() => {
-    if (!data || data.length === 0) return { best: null, worst: null }
-    const sorted = [...data].sort((a, b) => b.todayGainPct - a.todayGainPct)
-    return { best: sorted[0], worst: sorted[sorted.length - 1] }
-  }, [data])
+  const { data, isLoading, isError, best, worst } = useBestWorstWidget()
 
   return (
     <WidgetCard title="오늘의 MVP/꼴찌" emoji="🏆">

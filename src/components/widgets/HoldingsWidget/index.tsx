@@ -1,7 +1,7 @@
-import { useHoldings } from '../../api'
-import { WidgetCard, WidgetSkeleton, WidgetError } from '../common'
-import { formatPrice, formatPct, formatAmount, isGain } from '../../lib'
 import clsx from 'clsx'
+import { useHoldings } from '../../../api'
+import { formatAmount, formatPct, formatPrice, isGain } from '../../../lib'
+import { WidgetCard, WidgetError, WidgetSkeleton } from '../../common'
 
 export function HoldingsWidget() {
   const { data, isLoading, isError } = useHoldings()
@@ -28,41 +28,41 @@ export function HoldingsWidget() {
               </tr>
             </thead>
             <tbody>
-              {data.map((h) => (
+              {data.map((holding) => (
                 <tr
-                  key={h.id}
+                  key={holding.id}
                   className="border-b border-[var(--line)] hover:bg-bg-soft transition-colors"
                 >
                   <td className="py-2.5">
                     <div className="flex items-center gap-2">
                       <span
                         className="w-2 h-2 rounded-full flex-shrink-0"
-                        style={{ background: h.color }}
+                        style={{ background: holding.color }}
                       />
                       <div>
-                        <p className="font-medium text-ink">{h.name}</p>
-                        <p className="text-xs text-ink-faint">{h.ticker}</p>
+                        <p className="font-medium text-ink">{holding.name}</p>
+                        <p className="text-xs text-ink-faint">{holding.ticker}</p>
                       </div>
                     </div>
                   </td>
                   <td className="text-right py-2.5 font-num text-ink">
-                    {formatPrice(h.currentPrice)}
+                    {formatPrice(holding.currentPrice)}
                   </td>
                   <td className="text-right py-2.5 font-num text-ink">
-                    {formatAmount(h.value)}
+                    {formatAmount(holding.value)}
                   </td>
                   <td className="text-right py-2.5">
                     <span
                       className={clsx(
                         'font-num text-xs px-1.5 py-0.5 rounded',
-                        isGain(h.gainPct) ? 'text-gain bg-gain-bg' : 'text-loss bg-loss-bg',
+                        isGain(holding.gainPct) ? 'text-gain bg-gain-bg' : 'text-loss bg-loss-bg',
                       )}
                     >
-                      {formatPct(h.gainPct)}
+                      {formatPct(holding.gainPct)}
                     </span>
                   </td>
                   <td className="text-right py-2.5 font-num text-ink-soft text-xs">
-                    {h.allocationPct.toFixed(1)}%
+                    {holding.allocationPct.toFixed(1)}%
                   </td>
                 </tr>
               ))}

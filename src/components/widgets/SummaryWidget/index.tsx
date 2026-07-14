@@ -1,7 +1,7 @@
-import { usePortfolioSummary } from '../../api'
-import { WidgetCard, WidgetSkeleton, WidgetError } from '../common'
-import { formatKRW, formatAmount, formatPct, isGain } from '../../lib'
 import clsx from 'clsx'
+import { usePortfolioSummary } from '../../../api'
+import { formatAmount, formatKRW, formatPct, isGain } from '../../../lib'
+import { WidgetCard, WidgetError, WidgetSkeleton } from '../../common'
 
 export function SummaryWidget() {
   const { data, isLoading, isError } = usePortfolioSummary()
@@ -34,7 +34,10 @@ export function SummaryWidget() {
             <div className="flex-1 rounded-sm px-3 py-2" style={{ background: 'var(--gain-bg)' }}>
               <p className="text-xs mb-0.5" style={{ color: 'var(--ink-soft)' }}>총 수익</p>
               <p
-                className={clsx('font-num text-sm font-medium', isGain(data.totalGain) ? 'text-gain' : 'text-loss')}
+                className={clsx(
+                  'font-num text-sm font-medium',
+                  isGain(data.totalGain) ? 'text-gain' : 'text-loss',
+                )}
               >
                 {formatPct(data.totalGainPct)} ({formatAmount(data.totalGain)})
               </p>
@@ -47,7 +50,10 @@ export function SummaryWidget() {
             >
               <p className="text-xs text-ink-soft mb-0.5">오늘</p>
               <p
-                className={clsx('font-num text-sm font-medium', isGain(data.todayGain) ? 'text-gain' : 'text-loss')}
+                className={clsx(
+                  'font-num text-sm font-medium',
+                  isGain(data.todayGain) ? 'text-gain' : 'text-loss',
+                )}
               >
                 {formatPct(data.todayGainPct)} ({formatAmount(data.todayGain)})
               </p>

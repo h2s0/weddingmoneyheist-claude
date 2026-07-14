@@ -1,10 +1,11 @@
+import type { ReactNode } from 'react'
 import clsx from 'clsx'
-import { DragHandle } from './DragHandle'
+import { DragHandle } from '../DragHandle'
 
 interface WidgetCardProps {
   title: string
   emoji?: string
-  children: React.ReactNode
+  children: ReactNode
   className?: string
 }
 

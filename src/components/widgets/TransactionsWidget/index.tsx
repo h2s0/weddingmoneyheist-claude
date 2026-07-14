@@ -1,20 +1,8 @@
-import { useTransactions } from '../../api'
-import { WidgetCard, WidgetSkeleton, WidgetError } from '../common'
-import { formatAmount } from '../../lib'
-import type { TransactionType } from '../../types'
 import clsx from 'clsx'
-
-const TYPE_LABEL: Record<TransactionType, string> = {
-  buy: '매수',
-  sell: '매도',
-  dividend: '배당',
-}
-
-const TYPE_STYLE: Record<TransactionType, string> = {
-  buy: 'text-loss bg-loss-bg',
-  sell: 'text-gain bg-gain-bg',
-  dividend: 'text-[var(--lav-deep)] bg-[color-mix(in_oklab,var(--lav)_20%,transparent)]',
-}
+import { useTransactions } from '../../../api'
+import { formatAmount } from '../../../lib'
+import { WidgetCard, WidgetError, WidgetSkeleton } from '../../common'
+import { TYPE_LABEL, TYPE_STYLE } from './constants'
 
 export function TransactionsWidget() {
   const { data, isLoading, isError } = useTransactions()
