@@ -1,17 +1,17 @@
 # HANDOFF — 포트폴리오 대시보드 프로젝트 인수인계
 
-이 문서는 **빈 프로젝트 상태**에서 Claude Code(CLI)가 작업을 이어받기 위한 핸드오프다.
-아직 코드는 하나도 작성되지 않았다. 디자인 레퍼런스(기존 HTML)와 규칙 문서만 존재한다.
+이 문서는 Codex CLI가 현재 구현된 프로젝트의 작업을 이어받기 위한 핸드오프다.
+대시보드 기본 구현은 완료되어 있으며, 디자인 레퍼런스와 프로젝트 규칙을 기준으로 기능을 확장한다.
 
 ---
 
 ## 0. 가장 먼저 할 일 (순서 고정)
 
 1. 이 문서(`HANDOFF.md`)를 끝까지 읽는다.
-2. `CLAUDE.md`를 읽는다 — 프로젝트의 모든 규칙이 여기 있다.
-3. `.claude/skills/add-widget/SKILL.md`를 확인한다 — 위젯 추가 표준 절차.
+2. `AGENTS.md`를 읽는다 — 프로젝트의 모든 규칙이 여기 있다.
+3. `.codex/skills/add-widget/SKILL.md`를 확인한다 — 위젯 추가 표준 절차.
 4. `legacy/index.html`을 열어 디자인 기준을 눈으로 확인한다(색·둥근정도·그림자·마스코트·말풍선·라이트/다크 느낌).
-5. 곧바로 코딩하지 말고, 먼저 구현 계획을 세워 사용자에게 제시한다. (CLAUDE.md "코딩 전 반드시 생각할 것")
+5. 구현 전 성공 기준, 영향 파일, 리스크를 정리한다. (`AGENTS.md` "코딩 전 반드시 생각할 것")
 
 ---
 
@@ -22,16 +22,18 @@
 
 ---
 
-## 2. 현재 레포에 있는 파일 (인수 시점)
+## 2. 주요 프로젝트 파일
 
 ```
 .
+├── AGENTS.md                          ← 프로젝트 규칙 (최우선 권위 문서)
 ├── HANDOFF.md                         ← 지금 읽는 문서
-├── CLAUDE.md                          ← 프로젝트 규칙 (최우선 권위 문서)
-├── .claude/
+├── .codex/
 │   └── skills/
-│       └── add-widget/
-│           └── SKILL.md               ← "새 위젯 추가" 표준 절차 스킬
+│       ├── add-widget/SKILL.md         ← "새 위젯 추가" 표준 절차
+│       └── commit/SKILL.md             ← 검증 및 커밋 절차
+├── src/                               ← React/TypeScript 애플리케이션
+├── docs/TASKS.md                      ← 구현 작업 현황
 └── legacy/
     └── index.html                     ← 디자인 기준 원본 (참조 전용, 코드 복사 금지)
 ```
@@ -41,14 +43,14 @@
 **HANDOFF.md (이 문서)**
 인수인계용. 어디서부터 어떻게 시작할지의 진입점. 작업 방향이 헷갈리면 여기로 돌아온다.
 
-**CLAUDE.md**
+**AGENTS.md**
 프로젝트의 헌법. 기술 스택, 폴더 구조, 상태관리 분리(Zustand vs TanStack Query),
 타입 안정성, 금지 패턴, git/commit 규칙, 완료 정의 등이 들어 있다.
-이 문서와 충돌하는 판단이 생기면 CLAUDE.md가 우선이다.
+이 문서와 충돌하는 판단이 생기면 AGENTS.md가 우선이다.
 
-**.claude/skills/add-widget/SKILL.md**
+**.codex/skills/add-widget/SKILL.md**
 위젯을 하나 추가할 때마다 따르는 단계별 절차(타입→mock→query hook→유틸→컴포넌트→레지스트리 등록→토글→검증).
-"위젯 추가/카드 추가/~위젯 만들어줘" 류 요청에서 자동으로 펼쳐지거나 `/add-widget`으로 수동 호출된다.
+"위젯 추가/카드 추가/~위젯 만들어줘" 류 요청에서 사용하거나 `$add-widget`으로 명시적으로 호출한다.
 새 위젯 작업은 반드시 이 스킬을 따른다.
 
 **legacy/index.html**
@@ -58,7 +60,7 @@ React UMD + Babel-standalone CDN으로 짜인 단일 파일 원본. **디자인 
 
 ---
 
-## 3. 기술 스택 (CLAUDE.md 확정)
+## 3. 기술 스택 (`AGENTS.md` 확정)
 
 - 프론트: React + TypeScript + Vite + Tailwind CSS + CSS Variables
 - 대시보드: `react-grid-layout` (드래그 핸들 기반, 리사이즈, 레이아웃 저장/초기화)
@@ -68,11 +70,11 @@ React UMD + Babel-standalone CDN으로 짜인 단일 파일 원본. **디자인 
 - 패키지 매니저: **pnpm 전용** (npm/yarn/bun 금지, `pnpm-lock.yaml`만 유지)
 - 백엔드: 아직 구현 안 함. 초기엔 **mock 데이터만**. 키움증권 실연동은 나중에.
 
-상세·예외는 CLAUDE.md를 따른다.
+상세·예외는 `AGENTS.md`를 따른다.
 
 ---
 
-## 4. 목표 폴더 구조 (CLAUDE.md 기준)
+## 4. 폴더 구조 (`AGENTS.md` 기준)
 
 ```
 src/
@@ -95,12 +97,12 @@ src/
 
 ## 5. 권장 작업 순서 (빈 프로젝트 → 동작하는 대시보드)
 
-각 단계는 작은 단위로 끝내고, CLAUDE.md commit 규칙대로 커밋한다.
+각 단계는 작은 단위로 끝내고, `AGENTS.md` commit 규칙대로 커밋한다.
 각 커밋 전 `pnpm run lint && pnpm run typecheck && pnpm run build`를 통과시킨다.
 
 1. **프로젝트 초기화** — Vite react-ts 스캐폴딩, pnpm 설치, Tailwind 연결, lint/typecheck/build 스크립트 확인. (`chore: 프로젝트 초기화`)
 2. **테마 시스템** — `legacy/index.html`의 CSS 변수(라이트/다크)를 `src/styles`로 옮겨 디자인 토큰화. 색 하드코딩 금지. (`feat: 테마 시스템`)
-3. **타입 + mock 데이터** — CLAUDE.md "데이터 규칙"의 타입들(PortfolioSummary, Holding, Transaction, EquityCurvePoint, AllocationItem, DashboardLayout, DashboardWidget) 정의 후 `src/mocks`에 키움증권풍 mock. (`feat: mock 데이터/타입`)
+3. **타입 + mock 데이터** — `AGENTS.md` "데이터 규칙"의 타입들(PortfolioSummary, Holding, Transaction, EquityCurvePoint, AllocationItem, DashboardLayout, DashboardWidget) 정의 후 `src/mocks`에 키움증권풍 mock. (`feat: mock 데이터/타입`)
 4. **데이터 레이어** — `src/api`에 TanStack Query hook. 컴포넌트는 직접 fetch 금지. (`feat: 데이터 레이어`)
 5. **대시보드 grid** — `react-grid-layout` 기반 레이아웃, 드래그 핸들, 리사이즈, 레이아웃 저장/초기화, 안정적 widget id. (`feat: 대시보드 grid`)
 6. **위젯 구현** — 위젯마다 `add-widget` 스킬을 따라 하나씩. 위젯당 1커밋. (`feat: <name> widget 구현`)
@@ -133,5 +135,5 @@ src/
 ## 8. 막혔을 때
 
 - 디자인 판단이 애매하면 → `legacy/index.html` 화면을 기준으로 맞추고, 그래도 모호하면 사용자에게 묻는다.
-- 규칙 충돌이 생기면 → CLAUDE.md가 최우선. 그다음 이 HANDOFF, 그다음 스킬.
+- 규칙 충돌이 생기면 → `AGENTS.md`가 최우선. 그다음 이 HANDOFF, 그다음 스킬.
 - 새 위젯이면 → 무조건 `add-widget` 스킬 절차를 먼저 읽는다.

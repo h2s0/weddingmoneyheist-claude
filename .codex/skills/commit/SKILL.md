@@ -5,7 +5,7 @@ description: 작업 단위가 완성될 때마다 자동으로 커밋한다. 기
 
 # 커밋 절차
 
-CLAUDE.md의 커밋 규칙을 기반으로 한 실행 절차다.
+`AGENTS.md`의 커밋 규칙을 기반으로 한 실행 절차다.
 작업 단위가 완성될 때마다 이 순서를 따른다.
 
 ## 커밋 타이밍 (언제 커밋하는가)
@@ -37,7 +37,7 @@ pnpm run build
 
 ## 커밋 메시지 형식
 
-Conventional Commit을 따른다.
+제목은 Conventional Commit을 따르고, 본문은 Lore Commit Protocol을 따른다.
 
 ```
 <prefix>: <한글 설명>
@@ -65,20 +65,15 @@ refactor: widget card 컴포넌트 분리
 1. `docs/TASKS.md`에서 해당 항목을 `[x]`로 체크하고 커밋 해시를 기록한다.
 2. 커밋 결과를 사용자에게 한 줄로 보고한다: 해시, 메시지, 변경 파일 수.
 
-## 커밋 명령어 템플릿
+## 커밋 메시지 템플릿
 
 ```bash
-# 검증
-pnpm run lint && pnpm run typecheck && pnpm run build
-
-# 스테이징 (관련 파일만)
-git add <파일들>
-
-# 커밋
-git commit -m "$(cat <<'EOF'
 feat: 설명
 
-Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
-EOF
-)"
+Constraint: 변경 방향을 제한한 외부 조건
+Confidence: high
+Scope-risk: narrow
+Tested: pnpm run lint; pnpm run typecheck; pnpm run build
 ```
+
+자동 공동작성자 trailer는 추가하지 않는다.
