@@ -41,7 +41,8 @@
 
 ### 0. 제품·아키텍처 결정
 
-- [ ] `docs: 인증·백엔드 ADR 작성` — OAuth/DB는 Supabase를 우선 검토하고, 증권사 호출은 고정 egress IP가 가능한 NestJS/FastAPI backend 또는 proxy로 분리할지 확정
+- [x] `docs: DB provider 확정` — 사용자·세션·연결·전략 데이터는 Neon Postgres에 저장
+- [ ] `docs: 인증·백엔드 ADR 작성` — 고정 IP Node backend + Better Auth 구성을 확정하고 Neon Auth Beta는 현재 범위에서 제외
 - [x] `docs: OAuth 제공자 확정` — MVP는 카카오 단일 provider로 확정하고 Google·네이버는 현재 범위에서 제외
 - [ ] `docs: 최초 지원 증권사 확정` — 공식 API, 모의투자, 조회 API, 허용 IP, 사용자 소유 키 위임/제휴 약관을 확인해 1곳만 먼저 선정
 - [ ] `docs: 금융 기능 범위 확정` — 조회 전용, 주문 미지원, 자동매매 미지원, 투자 조언이 아닌 사용자 설정 도구임을 명시
@@ -51,16 +52,19 @@
 
 - [ ] `test: 테스트 기반 구성` — Vitest + Testing Library 단위/통합 테스트와 Playwright E2E 스크립트 추가
 - [ ] `feat: 환경변수 경계 구성` — 공개 클라이언트 설정과 서버 전용 비밀값을 분리하고 `.env.example` 작성
+- [ ] `chore: Neon Postgres 구성` — 프로젝트/리전 생성, pooled `DATABASE_URL`, migration용 direct URL, preview branch 운영 규칙 설정
+- [ ] `feat: Node backend 기반 구성` — 카카오 OAuth와 증권사 adapter를 함께 실행할 API 서버, secure cookie, CORS, health check 구성
 - [ ] `feat: 고정 egress 네트워크 구성` — 선정 증권사가 IP allowlist를 요구하면 고정 공인 IP를 가진 backend/proxy를 구성
-- [ ] `feat: 사용자 데이터 스키마 구성` — `profiles`, `broker_connections`, `investment_strategies`, `user_strategy_settings`, `audit_events` 설계 및 사용자별 접근 정책 적용
-- [ ] `feat: 증권사 비밀정보 저장소 구성` — API 키·시크릿·토큰을 서버에서만 암호화 저장하고 응답·로그·분석 이벤트에서 마스킹
+- [ ] `feat: 사용자 데이터 스키마 구성` — Better Auth 테이블과 `profiles`, `broker_connections`, `investment_strategies`, `user_strategy_settings`, `audit_events`를 Neon migration으로 관리
+- [ ] `feat: 사용자별 권한 경계 구성` — 모든 query에 인증된 user ID를 강제하고 DB 제약과 integration test로 교차 사용자 접근 차단
+- [ ] `feat: 증권사 비밀정보 저장소 구성` — API 키·시크릿·토큰을 KMS 기반으로 암호화한 뒤 Neon에 저장하고 응답·로그·분석 이벤트에서 마스킹
 - [ ] `test: 보안 회귀 테스트` — 비로그인 접근, 다른 사용자 데이터 접근, 비밀값 응답 노출, 로그 노출을 실패 케이스로 고정
 
 ### 2. 카카오 OAuth 로그인
 
 - [ ] `feat: 앱 라우팅 구성` — `/login`, `/auth/callback`, `/onboarding/broker`, `/dashboard`, `/settings` 경로와 not-found 화면 추가
-- [ ] `chore: Kakao Developers 앱 구성` — REST API 키, 활성화한 Client Secret, Supabase callback URL, 카카오 로그인과 동의항목 설정
-- [ ] `feat: 카카오 OAuth 세션 구성` — Supabase `kakao` provider 로그인, callback, 세션 복원, 로그아웃, 만료/취소/실패 처리
+- [ ] `chore: Kakao Developers 앱 구성` — REST API 키, 활성화한 Client Secret, Better Auth backend callback URL, 카카오 로그인과 동의항목 설정
+- [ ] `feat: 카카오 OAuth 세션 구성` — Better Auth `kakao` provider, Neon session 저장, secure cookie, callback, 복원, 로그아웃, 만료/취소/실패 처리
 - [ ] `feat: 카카오 로그인 화면 구현` — 기존 디자인 토큰을 사용한 카카오 로그인 버튼과 개인정보·이용 안내 링크 제공
 - [ ] `feat: 카카오 프로필 정규화` — 고유 사용자 ID를 기준으로 profile을 생성하고 이메일 미동의·미제공 사용자를 허용
 - [ ] `feat: 인증 가드 구현` — 미로그인 사용자는 `/login`으로 보내고 로그인 완료 후 원래 목적지 복원
