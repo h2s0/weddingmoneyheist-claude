@@ -51,7 +51,7 @@
 ### 1. 테스트·보안 기반
 
 - [ ] `test: 테스트 기반 구성` — Vitest + Testing Library 단위/통합 테스트와 Playwright E2E 스크립트 추가
-- [ ] `feat: 환경변수 경계 구성` — 공개 클라이언트 설정과 서버 전용 비밀값을 분리하고 `.env.example` 작성
+- [x] `feat: 환경변수 경계 구성` — 공개/서버 변수를 분리하고 `.env.example`, Git 제외, secret 검사, 최소 권한 CI 구성
 - [ ] `chore: Neon Postgres 구성` — 프로젝트/리전 생성, pooled `DATABASE_URL`, migration용 direct URL, preview branch 운영 규칙 설정
 - [ ] `feat: Node backend 기반 구성` — 카카오 OAuth와 증권사 adapter를 함께 실행할 API 서버, secure cookie, CORS, health check 구성
 - [ ] `feat: 고정 egress 네트워크 구성` — 선정 증권사가 IP allowlist를 요구하면 고정 공인 IP를 가진 backend/proxy를 구성

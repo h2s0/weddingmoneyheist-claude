@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "security:secrets": "git ls-files -z | node scripts/check-secrets.mjs",
     "typecheck": "tsc -b",
     "preview": "vite preview"
   },

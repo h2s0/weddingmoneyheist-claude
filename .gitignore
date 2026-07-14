@@ -5,10 +5,23 @@ dist-ssr/
 # 의존성
 node_modules/
 
-# 환경변수
+# 환경변수/비밀정보
 .env
-.env.local
-.env.*.local
+.env.*
+!.env.example
+!.env.*.example
+.envrc
+.direnv/
+
+# 인증서/개인키/자격증명
+*.key
+*.pem
+*.p12
+*.pfx
+*.jks
+*.keystore
+credentials*.json
+service-account*.json
 
 # TypeScript 빌드 캐시
 node_modules/.tmp/
