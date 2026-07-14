@@ -42,7 +42,7 @@
 ### 0. 제품·아키텍처 결정
 
 - [ ] `docs: 인증·백엔드 ADR 작성` — OAuth/DB는 Supabase를 우선 검토하고, 증권사 호출은 고정 egress IP가 가능한 NestJS/FastAPI backend 또는 proxy로 분리할지 확정
-- [ ] `docs: OAuth 제공자 확정` — MVP는 Google 1개로 시작하고, 추가 제공자는 후속 범위로 분리
+- [x] `docs: OAuth 제공자 확정` — MVP는 카카오 단일 provider로 확정하고 Google·네이버는 현재 범위에서 제외
 - [ ] `docs: 최초 지원 증권사 확정` — 공식 API, 모의투자, 조회 API, 허용 IP, 사용자 소유 키 위임/제휴 약관을 확인해 1곳만 먼저 선정
 - [ ] `docs: 금융 기능 범위 확정` — 조회 전용, 주문 미지원, 자동매매 미지원, 투자 조언이 아닌 사용자 설정 도구임을 명시
 - [ ] `docs: 프로젝트 규칙 갱신` — 실제 연동 시작 전에 `AGENTS.md`와 `HANDOFF.md`의 mock-only 제한을 새 범위에 맞게 변경
@@ -56,13 +56,15 @@
 - [ ] `feat: 증권사 비밀정보 저장소 구성` — API 키·시크릿·토큰을 서버에서만 암호화 저장하고 응답·로그·분석 이벤트에서 마스킹
 - [ ] `test: 보안 회귀 테스트` — 비로그인 접근, 다른 사용자 데이터 접근, 비밀값 응답 노출, 로그 노출을 실패 케이스로 고정
 
-### 2. OAuth 로그인
+### 2. 카카오 OAuth 로그인
 
 - [ ] `feat: 앱 라우팅 구성` — `/login`, `/auth/callback`, `/onboarding/broker`, `/dashboard`, `/settings` 경로와 not-found 화면 추가
-- [ ] `feat: OAuth 세션 구성` — 로그인, callback, 세션 복원, 로그아웃, 만료/취소/실패 처리
-- [ ] `feat: 로그인 화면 구현` — 기존 디자인 토큰을 사용한 OAuth 로그인 화면과 개인정보·이용 안내 링크 제공
+- [ ] `chore: Kakao Developers 앱 구성` — REST API 키, 활성화한 Client Secret, Supabase callback URL, 카카오 로그인과 동의항목 설정
+- [ ] `feat: 카카오 OAuth 세션 구성` — Supabase `kakao` provider 로그인, callback, 세션 복원, 로그아웃, 만료/취소/실패 처리
+- [ ] `feat: 카카오 로그인 화면 구현` — 기존 디자인 토큰을 사용한 카카오 로그인 버튼과 개인정보·이용 안내 링크 제공
+- [ ] `feat: 카카오 프로필 정규화` — 고유 사용자 ID를 기준으로 profile을 생성하고 이메일 미동의·미제공 사용자를 허용
 - [ ] `feat: 인증 가드 구현` — 미로그인 사용자는 `/login`으로 보내고 로그인 완료 후 원래 목적지 복원
-- [ ] `test: OAuth 흐름 검증` — 로그인 성공, 취소, callback 오류, 세션 만료, 로그아웃 E2E 통과
+- [ ] `test: 카카오 OAuth 흐름 검증` — 로그인 성공, 이메일 미제공, 동의 취소, callback 오류, 세션 만료, 로그아웃 E2E 통과
 
 ### 3. 증권사 API 온보딩
 
