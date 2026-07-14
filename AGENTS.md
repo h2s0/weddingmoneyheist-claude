@@ -90,16 +90,16 @@
 
 ## 백엔드
 
-향후 확장을 고려한 아키텍처:
+MVP 아키텍처:
 
-* NestJS 또는 FastAPI
-* PostgreSQL
-* Redis
-* WebSocket 또는 SSE
+* 고정 egress IP를 지원하는 Node.js API 서버
+* Better Auth 기반 카카오 OAuth와 서버 세션
+* Neon Postgres
+* 증권사별 adapter 경계
 
-실제 키움증권 연동은 아직 구현하지 않는다.
-
-우선은 Mock 데이터만 사용한다.
+Mock 데이터는 개발과 테스트 fixture로 유지하되 실제 API 전환을 허용한다.
+초기 실연동은 계좌·잔고·보유종목·거래내역 조회만 지원하고 주문과 자동매매는 구현하지 않는다.
+증권사 자격증명과 접근 토큰은 브라우저 또는 클라이언트 번들에 저장하지 않는다.
 
 ## Package Manager
 

@@ -68,9 +68,11 @@ React UMD + Babel-standalone CDN으로 짜인 단일 파일 원본. **디자인 
 - 대시보드: `react-grid-layout` (드래그 핸들 기반, 리사이즈, 레이아웃 저장/초기화)
 - 차트: Recharts
 - 클라이언트 UI 상태: Zustand (테마/다크모드/레이아웃/위젯 표시여부 등)
-- 서버 상태: TanStack Query (portfolio/holdings/transactions/chart 데이터, mock 단계)
+- 서버 상태: TanStack Query (mock fixture와 인증된 backend API를 동일 query 계약으로 교체)
 - 패키지 매니저: **pnpm 전용** (npm/yarn/bun 금지, `pnpm-lock.yaml`만 유지)
-- 백엔드: 아직 구현 안 함. 초기엔 **mock 데이터만**. 키움증권 실연동은 나중에.
+- 백엔드: Node.js + Better Auth + 카카오 OAuth + Neon Postgres로 전환 예정
+- 증권사 연동: 서버 adapter를 통한 **조회 전용** MVP. 주문·자동매매는 현재 범위에서 제외
+- 비밀정보: 증권사 키·시크릿·접근 토큰은 브라우저에 저장하지 않고 backend에서 암호화 처리
 
 상세·예외는 `AGENTS.md`를 따른다.
 
@@ -110,6 +112,9 @@ src/
 6. **위젯 구현** — 위젯마다 `add-widget` 스킬을 따라 하나씩. 위젯당 1커밋. (`feat: <name> widget 구현`)
 7. **반응형 마감** — 데스크탑/태블릿/모바일, overflow, 터치. (`feat: 반응형 마감`)
 8. **QA/리팩토링** — loading/empty/error 상태 점검, 다크모드 점검, 중복 제거. (`refactor:` / `fix:`)
+9. **인증·DB 기반** — Node backend, Better Auth 카카오 OAuth, Neon schema와 보안 경계 구성
+10. **증권사 조회 연동** — 선정한 증권사 adapter로 계좌 데이터를 조회하고 기존 query 계약을 실제 API로 전환
+11. **전략 설정** — 대시보드 진입 후 매수법을 선택·시뮬레이션하되 실제 주문은 실행하지 않음
 
 ---
 

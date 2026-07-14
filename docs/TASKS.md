@@ -45,8 +45,8 @@
 - [ ] `docs: 인증·백엔드 ADR 작성` — 고정 IP Node backend + Better Auth 구성을 확정하고 Neon Auth Beta는 현재 범위에서 제외
 - [x] `docs: OAuth 제공자 확정` — MVP는 카카오 단일 provider로 확정하고 Google·네이버는 현재 범위에서 제외
 - [ ] `docs: 최초 지원 증권사 확정` — 공식 API, 모의투자, 조회 API, 허용 IP, 사용자 소유 키 위임/제휴 약관을 확인해 1곳만 먼저 선정
-- [ ] `docs: 금융 기능 범위 확정` — 조회 전용, 주문 미지원, 자동매매 미지원, 투자 조언이 아닌 사용자 설정 도구임을 명시
-- [ ] `docs: 프로젝트 규칙 갱신` — 실제 연동 시작 전에 `AGENTS.md`와 `HANDOFF.md`의 mock-only 제한을 새 범위에 맞게 변경
+- [x] `docs: 금융 기능 범위 확정` — 조회 전용, 주문 미지원, 자동매매 미지원, 투자 조언이 아닌 사용자 설정 도구임을 명시
+- [x] `docs: 프로젝트 규칙 갱신` — `AGENTS.md`와 `HANDOFF.md`의 mock-only 제한을 조회 전용 실연동 범위로 변경
 
 ### 1. 테스트·보안 기반
 
